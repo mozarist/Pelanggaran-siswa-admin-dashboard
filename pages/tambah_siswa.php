@@ -13,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   //sql untuk tambah data ke db
   $sql = "insert into tbl_siswa (nis, nama, kelas) values('$nis', '$nama', '$kelas')";
 
+
   //eksekusi
   $go = mysqli_query($koneksi,$sql);
   
@@ -42,9 +43,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 <input class="form-control" type="text" value="" name="nama" required>
             </div>
             <div class="form-group">
-                <label for="example-text-input" class="form-control-label">Kelas</label>
-                <input class="form-control" type="text" value="" name="kelas" required>
-            </div>
+                <label for="example-text-input" class="form-control-label">Nama Siswa</label>
+                <select name='id_siswa' class="form-control form-control-lg">
+                  <option>--Pilih Kelas--</option>
+
+                  <?php foreach ($go as $data):?>
+                    <option value="<?=$data['id_siswa']?>"><?=$data['nama']?> (<?=$data['kelas']?>)</option>
+                  <?php endforeach;?>
+                </select>
+              </div>
             <button type="submit" class="btn btn-primary">Simpan</button>
         </form>
               </div>

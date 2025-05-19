@@ -17,16 +17,21 @@ include "header.php";
                         <i class="ni ni-circle-08 text-dark text-gradient text-lg opacity-10" aria-hidden="true"></i>
                       </div>
                       <h5 class="text-white font-weight-bolder mb-0 mt-3">
-                        <?php
-                         $sql = "SELECT COUNT(id_siswa) AS jumlah_siswa FROM tbl_siswa;";
+                      <?php
+$sql = "SELECT COUNT(id_siswa) AS jumlah_siswa FROM tbl_siswa";
 
-                         $hasil = mysqli_query($koneksi,$sql);
-                         foreach ($hasil as $hsl){
-                        ?>
-                        <?=$hsl?>
-                        <?php
-        }
-                  ?>
+// Eksekusi query
+$go = mysqli_query($koneksi, $sql);
+
+// Cek hasil
+if ($go) {
+    $data = mysqli_fetch_assoc($go);
+    echo $data['jumlah_siswa'];
+} else {
+    echo "Gagal mengambil data: " . mysqli_error($koneksi);
+}
+?>
+
                       </h5>
                       <span class="text-white text-sm">Jumlah Siswa</span>
                     </div>

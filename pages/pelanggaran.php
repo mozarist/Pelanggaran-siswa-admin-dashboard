@@ -1,65 +1,69 @@
 <?php 
 include "koneksi.php";
 include "header.php" ;
-
-$berhasil = false;
-
-//sql untuk tambah data ke db
-$sql = "select * from tbl_siswa";
-$sql_kategori = "select * from tbl_kategori_pelanggaran";
-//eksekusi
-$go = mysqli_query($koneksi,$sql);
-$go_2 = mysqli_query($koneksi,$sql_kategori);
-
-//simpan data jika form di submit
-if (isset($_POST['simpan'])) {
-    $id_siswa = $_POST['id_siswa'];
-    $id_kategori_array = $_POST['id_kategori'];
-
-    foreach ($id_kategori_array as $id_kat) {
-        $sql = "INSERT INTO tbl_pelanggaran_siswa(id_siswa, id_kategori_pelanggaran) VALUES ('$id_siswa','$id_kat')";
-
-        if (mysqli_query($koneksi, $sql)) {
-            $berhasil = true;
-        }
-    };
-
-    
-  }
 ?>
     <div class="container-fluid py-4">
       <div class="row">
         <div class="col-12">
           <div class="card mb-4">
-            <div class="card-header pb-0">
-              <h4>Catat Pelanggaran Siswa</h4>
+            <div class="card-header pb-1">
+              <h4>Daftar Pelanggaran Siswa</h4>
+              <a href="catat_pelanggaran.php" class="btn btn-primary btn-sm">Catat Pelanggaran</a>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive px-4">
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No.</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nama</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kelas</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Pelanggaran yang dilakukan</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Poin</th>
+                    </tr>
+                  </thead>
+                  <?php
+        $no = 1;
+        $sql = "SELECT tbl_siswa.nama, tbl_siswa.kelas, tbl_pelanggaran_siswa.tanggal, tbl_kategori_pelanggaran.nama_pelanggaran, tbl_kategori_pelanggaran.poin
+                FROM tbl_pelanggaran_siswa
+                INNER JOIN tbl_siswa 
+                    ON tbl_pelanggaran_siswa.id_siswa = tbl_siswa.id_siswa
+                INNER JOIN tbl_kategori_pelanggaran
+                    ON tbl_pelanggaran_siswa.id_kategori_pelanggaran = tbl_kategori_pelanggaran.id_kategori_pelanggaran
+                GROUP BY tbl_pelanggaran_siswa.id_pelanggaran order by id_pelanggaran desc;";
 
-              <form action="" method="POST">
-              <div class="form-group">
-                <label for="example-text-input" class="form-control-label">Nama Siswa</label>
-                <select name='id_siswa' class="form-control form-control-lg">
-                  <option>--Pilih Siswa--</option>
+        $hasil = mysqli_query($koneksi,$sql);
 
-                  <?php foreach ($go as $data):?>
-                    <option value="<?=$data['id_siswa']?>"><?=$data['nama']?> (<?=$data['kelas']?>)</option>
-                  <?php endforeach;?>
-                </select>
-              </div>
-              <div class="form-group">
-              <label for="example-text-input" class="form-control-label">Jenis Pelanggaran</label>
-              <?php foreach ($go_2 as $data):?>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" name="id_kategori[]" value="<?=$data['id_kategori_pelanggaran']?>">
-                  <label class="custom-control-label" for="customCheck1"><?=$data['nama_pelanggaran']?> (<?=$data['poin']?> poin)</label>
-                </div>
-              <?php endforeach;?>
-              </div>
-              
-            <button type="submit" name="simpan" class="btn btn-primary">Catat pelanggaran</button>
-        </form>
+        foreach ($hasil as $hsl){
+
+        ?>
+                  <tbody>
+                    <tr>
+                      <td class="ps-4">
+                      <?=$no++?>
+                      </td>
+                      <td class="align-middle text-sm font-weight-bold">
+                      <?=$hsl['nama']?>
+                      </td>
+                      <td class="align-middle text-center">
+                      <?=$hsl['kelas']?>
+                      </td>
+                      <td class="align-middle text-sm text-center">
+                      <?=$hsl['tanggal']?>
+                      </td>
+                      <td class="align-middle text-sm text-center">
+                      <?=$hsl['nama_pelanggaran']?>
+                      </td>
+                      <td class="align-middle text-sm text-center">
+                      <?=$hsl['poin']?>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <?php
+        }
+                  ?>
+                </table>
               </div>
             </div>
           </div>
@@ -184,23 +188,6 @@ if (isset($_POST['simpan'])) {
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../assets/js/soft-ui-dashboard.min.js?v=1.1.0"></script>
-
-
-  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <?php 
-    if ($berhasil) : ?>
-    <script>
-        swal({
-            title: "Berhasil",
-            text: "Data berhasil disimpan ✌️✌️",
-            icon: "success",
-            button: "oke in aja",
-        }).then(() => {
-            window.location.href =
-            "pelanggaran.php"
-        });
-    </script>
-    <?php endif; ?>
 </body>
 
 </html>
