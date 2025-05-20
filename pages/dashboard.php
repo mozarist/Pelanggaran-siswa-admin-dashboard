@@ -7,30 +7,106 @@ include "header.php";
       <div class="row">
         <div class="col-lg-6 col-12">
           <div class="row">
-            <div class="col-lg-6 col-md-6 col-12">
+          <div class="col-lg-6 col-md-6 col-12 mt-4 mt-md-0">
               <div class="card">
                 <span class="mask bg-primary opacity-10 border-radius-lg"></span>
                 <div class="card-body p-3 position-relative">
                   <div class="row">
                     <div class="col-8 text-start">
-                      <div class="icon icon-shape bg-white shadow text-center border-radius-2xl">
-                        <i class="ni ni-circle-08 text-dark text-gradient text-lg opacity-10" aria-hidden="true"></i>
+                      <div class="icon icon-shape bg-white shadow text-center d-flex justify-content-center align-items-center border-radius-2xl">
+                      <svg xmlns="http://www.w3.org/2000/svg" style="width:1rem; height:1rem;" viewBox="0 0 384 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M48 0C21.5 0 0 21.5 0 48L0 464c0 26.5 21.5 48 48 48l96 0 0-80c0-26.5 21.5-48 48-48s48 21.5 48 48l0 80 96 0c26.5 0 48-21.5 48-48l0-416c0-26.5-21.5-48-48-48L48 0zM64 240c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zm112-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zM80 96l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zM272 96l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16z"/></svg>
+                      </div>
+                      <h5 class="text-white font-weight-bolder mb-0 mt-3">
+                        Poin Tertinggi: 
+                        <?php
+                          $sql = "SELECT tbl_siswa.kelas, SUM(tbl_kategori_pelanggaran.poin) AS total_poin
+                                  FROM tbl_pelanggaran_siswa
+                                  INNER JOIN tbl_siswa 
+                                      ON tbl_pelanggaran_siswa.id_siswa = tbl_siswa.id_siswa
+                                  INNER JOIN tbl_kategori_pelanggaran 
+                                      ON tbl_pelanggaran_siswa.id_kategori_pelanggaran = tbl_kategori_pelanggaran.id_kategori_pelanggaran
+                                  GROUP BY tbl_siswa.kelas
+                                  ORDER BY total_poin DESC
+                                  LIMIT 1;
+                                  ";
+
+                          // Eksekusi query
+                          $go = mysqli_query($koneksi, $sql);
+
+                          // Cek hasil
+                          if ($go) {
+                              $data = mysqli_fetch_assoc($go);
+                              echo $data['total_poin'];
+                          } else {
+                          }
+                        ?>
+
+                      </h5>
+                      <span class="text-white text-sm">Kelas: 
+                      <?php
+                          $sql = "SELECT tbl_siswa.kelas, SUM(tbl_kategori_pelanggaran.poin) AS total_poin
+                                  FROM tbl_pelanggaran_siswa
+                                  INNER JOIN tbl_siswa 
+                                      ON tbl_pelanggaran_siswa.id_siswa = tbl_siswa.id_siswa
+                                  INNER JOIN tbl_kategori_pelanggaran 
+                                      ON tbl_pelanggaran_siswa.id_kategori_pelanggaran = tbl_kategori_pelanggaran.id_kategori_pelanggaran
+                                  GROUP BY tbl_siswa.kelas
+                                  ORDER BY total_poin DESC
+                                  LIMIT 1;
+                                  ";
+
+                          // Eksekusi query
+                          $go = mysqli_query($koneksi, $sql);
+
+                          // Cek hasil
+                          if ($go) {
+                              $data = mysqli_fetch_assoc($go);
+                              echo $data['kelas'];
+                          } else {
+                          }
+                        ?>
+                      </span>
+                    </div>
+                    <div class="col-4">
+                      <div class="dropstart text-end mb-6">
+                        <a href="javascript:;" class="cursor-pointer" id="dropdownUsers2" data-bs-toggle="dropdown" aria-expanded="false">
+                          <i class="fa fa-ellipsis-h text-white"></i>
+                        </a>
+                        <ul class="dropdown-menu px-2 py-3" aria-labelledby="dropdownUsers2">
+                          <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a></li>
+                          <li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a></li>
+                          <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-12">
+              <div class="card">
+                <span class="mask bg-dark opacity-10 border-radius-lg"></span>
+                <div class="card-body p-3 position-relative">
+                  <div class="row">
+                    <div class="col-8 text-start">
+                      <div class="icon icon-shape bg-white shadow text-center d-flex align-items-center justify-content-center border-radius-2xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="width:1rem;height:1rem;" viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/></svg>
                       </div>
                       <h5 class="text-white font-weight-bolder mb-0 mt-3">
                       <?php
-$sql = "SELECT COUNT(id_siswa) AS jumlah_siswa FROM tbl_siswa";
+                          $sql = "SELECT COUNT(id_siswa) AS jumlah_siswa FROM tbl_siswa";
 
-// Eksekusi query
-$go = mysqli_query($koneksi, $sql);
+                          // Eksekusi query
+                          $go = mysqli_query($koneksi, $sql);
 
-// Cek hasil
-if ($go) {
-    $data = mysqli_fetch_assoc($go);
-    echo $data['jumlah_siswa'];
-} else {
-    echo "Gagal mengambil data: " . mysqli_error($koneksi);
-}
-?>
+                          // Cek hasil
+                          if ($go) {
+                              $data = mysqli_fetch_assoc($go);
+                              echo $data['jumlah_siswa'];
+                          } else {
+                              echo "Gagal mengambil data: " . mysqli_error($koneksi);
+                          }
+                      ?>
 
                       </h5>
                       <span class="text-white text-sm">Jumlah Siswa</span>
@@ -46,38 +122,6 @@ if ($go) {
                           <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li>
                         </ul>
                       </div>
-                      <!-- <p class="text-white text-sm text-end font-weight-bolder mt-auto mb-0">+55%</p> -->
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-12 mt-4 mt-md-0">
-              <div class="card">
-                <span class="mask bg-dark opacity-10 border-radius-lg"></span>
-                <div class="card-body p-3 position-relative">
-                  <div class="row">
-                    <div class="col-8 text-start">
-                      <div class="icon icon-shape bg-white shadow text-center border-radius-2xl">
-                        <i class="ni ni-active-40 text-dark text-gradient text-lg opacity-10" aria-hidden="true"></i>
-                      </div>
-                      <h5 class="text-white font-weight-bolder mb-0 mt-3">
-                        357
-                      </h5>
-                      <span class="text-white text-sm">Click Events</span>
-                    </div>
-                    <div class="col-4">
-                      <div class="dropstart text-end mb-6">
-                        <a href="javascript:;" class="cursor-pointer" id="dropdownUsers2" data-bs-toggle="dropdown" aria-expanded="false">
-                          <i class="fa fa-ellipsis-h text-white"></i>
-                        </a>
-                        <ul class="dropdown-menu px-2 py-3" aria-labelledby="dropdownUsers2">
-                          <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a></li>
-                          <li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a></li>
-                          <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li>
-                        </ul>
-                      </div>
-                      <p class="text-white text-sm text-end font-weight-bolder mt-auto mb-0">+124%</p>
                     </div>
                   </div>
                 </div>
@@ -95,9 +139,51 @@ if ($go) {
                         <i class="ni ni-cart text-dark text-gradient text-lg opacity-10" aria-hidden="true"></i>
                       </div>
                       <h5 class="text-white font-weight-bolder mb-0 mt-3">
-                        2300
+                      <?php
+                          $sql = "SELECT tbl_kategori_pelanggaran.nama_pelanggaran,
+                            COUNT(tbl_pelanggaran_siswa.id_pelanggaran) AS jumlah_pelanggaran
+                            FROM tbl_pelanggaran_siswa
+                            INNER JOIN tbl_kategori_pelanggaran 
+                                ON tbl_pelanggaran_siswa.id_kategori_pelanggaran = tbl_kategori_pelanggaran.id_kategori_pelanggaran
+                            GROUP BY tbl_kategori_pelanggaran.nama_pelanggaran
+                            ORDER BY jumlah_pelanggaran DESC
+                            LIMIT 1;
+                                  ";
+
+                          // Eksekusi query
+                          $go = mysqli_query($koneksi, $sql);
+
+                          // Cek hasil
+                          if ($go) {
+                              $data = mysqli_fetch_assoc($go);
+                              echo $data['jumlah_pelanggaran'];
+                          } else {
+                          }
+                        ?>x
                       </h5>
-                      <span class="text-white text-sm">Purchases</span>
+                      <span class="text-white text-sm">
+                      <?php
+                          $sql = "SELECT tbl_kategori_pelanggaran.nama_pelanggaran,
+                            COUNT(tbl_pelanggaran_siswa.id_pelanggaran) AS jumlah_pelanggaran
+                            FROM tbl_pelanggaran_siswa
+                            INNER JOIN tbl_kategori_pelanggaran 
+                                ON tbl_pelanggaran_siswa.id_kategori_pelanggaran = tbl_kategori_pelanggaran.id_kategori_pelanggaran
+                            GROUP BY tbl_kategori_pelanggaran.nama_pelanggaran
+                            ORDER BY jumlah_pelanggaran DESC
+                            LIMIT 1;
+                                  ";
+
+                          // Eksekusi query
+                          $go = mysqli_query($koneksi, $sql);
+
+                          // Cek hasil
+                          if ($go) {
+                              $data = mysqli_fetch_assoc($go);
+                              echo $data['nama_pelanggaran'];
+                          } else {
+                          }
+                        ?>
+                      </span>
                     </div>
                     <div class="col-4">
                       <div class="dropdown text-end mb-6">
@@ -110,7 +196,6 @@ if ($go) {
                           <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li>
                         </ul>
                       </div>
-                      <p class="text-white text-sm text-end font-weight-bolder mt-auto mb-0">+15%</p>
                     </div>
                   </div>
                 </div>
@@ -126,9 +211,22 @@ if ($go) {
                         <i class="ni ni-like-2 text-dark text-gradient text-lg opacity-10" aria-hidden="true"></i>
                       </div>
                       <h5 class="text-white font-weight-bolder mb-0 mt-3">
-                        940
+                      <?php
+                          $sql = "SELECT COUNT(*) AS total_pelanggaran FROM tbl_pelanggaran_siswa;
+                                  ";
+
+                          // Eksekusi query
+                          $go = mysqli_query($koneksi, $sql);
+
+                          // Cek hasil
+                          if ($go) {
+                              $data = mysqli_fetch_assoc($go);
+                              echo $data['total_pelanggaran'];
+                          } else {
+                          }
+                        ?>
                       </h5>
-                      <span class="text-white text-sm">Likes</span>
+                      <span class="text-white text-sm">Jumlah Pelanggaran</span>
                     </div>
                     <div class="col-4">
                       <div class="dropstart text-end mb-6">
@@ -141,7 +239,6 @@ if ($go) {
                           <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li>
                         </ul>
                       </div>
-                      <p class="text-white text-sm text-end font-weight-bolder mt-auto mb-0">+90%</p>
                     </div>
                   </div>
                 </div>
@@ -149,7 +246,7 @@ if ($go) {
             </div>
           </div>
         </div>
-        <div class="col-lg-6 col-12 mt-4 mt-lg-0">
+        <div class="col-lg-6 col-12 mt-4 mt-lg-0 d-none">
           <div class="card shadow h-100">
             <div class="card-header pb-0 p-3">
               <h6 class="mb-0">Reviews</h6>
@@ -209,8 +306,76 @@ if ($go) {
             </div>
           </div>
         </div>
+
+        <div class="row py-4">
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-1">
+              <h4>Daftar Pelanggaran Siswa</h4>
+              <a href="catat_pelanggaran.php" class="btn btn-primary btn-sm">Catat Pelanggaran</a>
+            </div>
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive px-4">
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No.</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nama</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Kelas</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Pelanggaran yang dilakukan</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Poin</th>
+                    </tr>
+                  </thead>
+                  <?php
+        $no = 1;
+        $sql = "SELECT tbl_siswa.nama, tbl_siswa.kelas, tbl_pelanggaran_siswa.tanggal, tbl_kategori_pelanggaran.nama_pelanggaran, tbl_kategori_pelanggaran.poin
+                FROM tbl_pelanggaran_siswa
+                INNER JOIN tbl_siswa 
+                    ON tbl_pelanggaran_siswa.id_siswa = tbl_siswa.id_siswa
+                INNER JOIN tbl_kategori_pelanggaran
+                    ON tbl_pelanggaran_siswa.id_kategori_pelanggaran = tbl_kategori_pelanggaran.id_kategori_pelanggaran
+                GROUP BY tbl_pelanggaran_siswa.id_pelanggaran order by id_pelanggaran desc;";
+
+        $hasil = mysqli_query($koneksi,$sql);
+
+        foreach ($hasil as $hsl){
+
+        ?>
+                  <tbody>
+                    <tr>
+                      <td class="ps-4">
+                      <?=$no++?>
+                      </td>
+                      <td class="align-middle text-sm font-weight-bold">
+                      <?=$hsl['nama']?>
+                      </td>
+                      <td class="align-middle text-center">
+                      <?=$hsl['kelas']?>
+                      </td>
+                      <td class="align-middle text-sm text-center">
+                      <?=$hsl['tanggal']?>
+                      </td>
+                      <td class="align-middle text-sm text-center">
+                      <?=$hsl['nama_pelanggaran']?>
+                      </td>
+                      <td class="align-middle text-sm text-center">
+                      <?=$hsl['poin']?>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <?php
+        }
+                  ?>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>                 
+
       </div>
-      <div class="row my-4">
+      <div class="row my-4 d-none">
         <div class="col-lg-8 col-md-6 mb-md-0 mb-4">
           <div class="card">
             <div class="card-header pb-0">
@@ -555,7 +720,7 @@ if ($go) {
           </div>
         </div>
       </div>
-      <div class="row mt-4">
+      <div class="row mt-4 d-none">
         <div class="col-lg-7 mb-lg-0 mb-4">
           <div class="card">
             <div class="card-body p-3">
@@ -599,7 +764,7 @@ if ($go) {
           </div>
         </div>
       </div>
-      <div class="row mt-4">
+      <div class="row mt-4 d-none">
         <div class="col-lg-5 mb-lg-0 mb-4">
           <div class="card z-index-2">
             <div class="card-body p-2">

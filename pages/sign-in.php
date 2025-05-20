@@ -1,3 +1,30 @@
+<?php
+include "../koneksi.php";
+session_start();
+
+$error = "";
+
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    //tangkap input form
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    //cek ke database
+    $query = "SELECT * FROM tbl_user WHERE username='$username' AND password='$password'";
+    
+    //eksekusi
+    $result = mysqli_query($koneksi, $query);
+
+    //periksa hasil
+    if ($result->num_rows > 0) {
+        header('Location: dashboard.php');
+    } else{
+        echo "Login Gagal. Username atau Password salah.";
+    }
+}
+?>
+
+
 <!--
 =========================================================
 * Soft UI Dashboard 3 - v1.1.0
